@@ -159,7 +159,7 @@
         text = {
           title: textData.cropperTitle,
           ok: textData.cropperOk,
-          cancel: textData.cropperCancel
+          cancel: textData.cropperCancel,
         };
         replaceTexts = this.options.text;
       }
@@ -347,14 +347,14 @@
 
             emulateImageData = {
               naturalWidth: naturalWidth,
-              naturalHeight: naturalHeight
+              naturalHeight: naturalHeight,
             };
 
             emulateCropData = {
               x: Math.round((naturalWidth - width) / 2),
               y: Math.round((naturalHeight - height) / 2),
               width: Math.round(width),
-              height: Math.round(height)
+              height: Math.round(height),
             };
 
             _this.preview($this, emulateImageData, emulateCropData);
@@ -420,7 +420,14 @@
         sizeData = $target.data(),
         sizeName = sizeData.sizeName || "original",
         sizeResolution = sizeData.sizeResolution,
-        $clone = $(`<img src=${sizeData.originalUrl}>`),
+        originalUrl = /\.original\./.test(sizeData.originalUrl)
+          ? sizeData.originalUrl
+          : /\.original\./.test($target.attr("data-original-url"))
+          ? $target.attr("data-original-url")
+          : $target
+              .attr("data-original-url")
+              .replace(/file\./, "file.original."),
+        $clone = $(`<img src=${originalUrl}>`),
         data = this.data || {},
         _this = this,
         sizeAspectRatio = NaN,
@@ -505,7 +512,7 @@
             _this.output(url, syncData);
             $modal.qorModal("hide");
           });
-        }
+        },
       });
     },
 
@@ -610,7 +617,7 @@
 
       $target.css({
         maxWidth: imageData.naturalWidth / scaledRatio,
-        maxHeight: imageData.naturalHeight / scaledRatio
+        maxHeight: imageData.naturalHeight / scaledRatio,
       });
 
       this.center($target);
@@ -676,7 +683,7 @@
         this.unbuild();
       }
       this.$element.removeData(NAMESPACE);
-    }
+    },
   };
 
   QorCropper.DEFAULTS = {
@@ -688,8 +695,8 @@
     text: {
       title: "Crop the image",
       ok: "OK",
-      cancel: "Cancel"
-    }
+      cancel: "Cancel",
+    },
   };
 
   QorCropper.TOGGLE = `<div class="qor-cropper__toggle">
@@ -769,7 +776,7 @@
         parent: ".qor-file",
         output: ".qor-file__options",
         list: ".qor-file__list",
-        key: "CropOptions"
+        key: "CropOptions",
       };
 
     $(document)
