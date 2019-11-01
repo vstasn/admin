@@ -11,6 +11,7 @@ import (
 	"github.com/qor/qor/utils"
 	"github.com/qor/roles"
 	"github.com/qor/session"
+	_ "github.com/vstasn/admin/views"
 )
 
 // Context admin context, which is used for admin controller
